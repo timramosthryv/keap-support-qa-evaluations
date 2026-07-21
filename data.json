@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "group": "Keap_Support",
+    "goal": 90,
+    "source": "8x8 Quality Management - Search Evaluations",
+    "range": "2026 year-to-date",
+    "lastUpdated": "2026-07-21T16:00:00"
+  },
+  "records": [
+    { "agent": "Anthony Perez D Oleo",       "score": 80,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-21", "interactionDate": "2026-07-17" },
+    { "agent": "Anthony Aguasvivas",          "score": 80,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-21", "interactionDate": "2026-07-18" },
+    { "agent": "Adalu Javier De Los santos",  "score": 80,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-21", "interactionDate": "2026-07-15" },
+    { "agent": "Reyson Mendez Cabrera",       "score": 85,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-20", "interactionDate": "2026-07-18" },
+    { "agent": "Randy Mejia Moscoso",         "score": 80,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-20", "interactionDate": "2026-07-17" },
+    { "agent": "Menfis Vasquez Espinal",      "score": 85,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-20", "interactionDate": "2026-07-17" },
+    { "agent": "Marielba Nunez Garcia",       "score": 80,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-20", "interactionDate": "2026-07-17" },
+    { "agent": "Manolo Mora",                 "score": 85,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-20", "interactionDate": "2026-07-17" },
+    { "agent": "Logi Martinez Peguero",       "score": 60,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-20", "interactionDate": "2026-07-15" },
+    { "agent": "Julio Martinez",              "score": 80,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-20", "interactionDate": "2026-07-16" },
+    { "agent": "Jorge Encarnacion Mercedes",  "score": 80,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-20", "interactionDate": "2026-07-17" },
+    { "agent": "Jeaina Bautista Baez",        "score": 85,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-20", "interactionDate": "2026-07-19" },
+    { "agent": "Gianni Alcantara Zapata",     "score": 65,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-17", "interactionDate": "2026-07-15" },
+    { "agent": "George Castro Cruz",          "score": 95,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-17", "interactionDate": "2026-07-16" },
+    { "agent": "Emil Rosario Roque",          "score": 95,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-17", "interactionDate": "2026-07-14" },
+    { "agent": "Cristian Hiraldo Morales",    "score": 85,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-17", "interactionDate": "2026-07-15" },
+    { "agent": "Carlos Leonardo",             "score": 85,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-17", "interactionDate": "2026-07-16" },
+    { "agent": "Camila Santana Guilamo",      "score": 100, "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-17", "interactionDate": "2026-07-14" },
+    { "agent": "Avrill Sanchez Herasme",      "score": 85,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-17", "interactionDate": "2026-07-15" },
+    { "agent": "Arnold De Jesus Rodriguez",   "score": 80,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-17", "interactionDate": "2026-07-14" },
+    { "agent": "Anthony Perez D Oleo",        "score": 85,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-17", "interactionDate": "2026-07-16" },
+    { "agent": "Anthony Aguasvivas",          "score": 80,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-17", "interactionDate": "2026-07-16" },
+    { "agent": "Adalu Javier De Los santos",  "score": 80,  "channel": "Chat",  "evaluator": "Amber Thomas", "evalDate": "2026-07-17", "interactionDate": "2026-07-14" },
+    { "agent": "Braian Vicente Santos",       "score": 80,  "channel": "Voice", "evaluator": "Amber Thomas", "evalDate": "2026-07-16", "interactionDate": "2026-07-15" },
+    { "agent": "Ovianny Jimenez Lorenzo",     "score": 80,  "channel": "Voice", "evaluator": "Amber Thomas", "evalDate": "2026-07-16", "interactionDate": "2026-07-15" },
+    { "agent": "Ashley Brown",                "score": 80,  "channel": "Voice", "evaluator": "Amber Thomas", "evalDate": "2026-07-16", "interactionDate": "2026-07-16" },
+    { "agent": "Luis Rubio",                  "score": 80,  "channel": "Voice", "evaluator": "Amber Thomas", "evalDate": "2026-07-16", "interactionDate": "2026-07-15" },
+    { "agent": "Anthony Raccuia",             "score": 85,  "channel": "Voice", "evaluator": "Amber Thomas", "evalDate": "2026-07-16", "interactionDate": "2026-07-15" },
+    { "agent": "Gabriela Flores Cruz",        "score": 80,  "channel": "Voice", "evaluator": "Amber Thomas", "evalDate": "2026-07-16", "interactionDate": "2026-07-15" },
+    { "agent": "Cona Kight",                  "score": 85,  "channel": "Voice", "evaluator": "Amber Thomas", "evalDate": "2026-07-16", "interactionDate": "2026-07-15" },
+    { "agent": "Holly Wiscombe",              "score": 85,  "channel": "Voice", "evaluator": "Amber Thomas", "evalDate": "2026-07-16", "interactionDate": "2026-07-15" }
+  ]
+}
