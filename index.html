@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Keap Support · QA Evaluation Scores</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   :root{
     --orange:#ff5000; --orange-soft:#fff1ea;
@@ -244,20 +245,21 @@ const GOAL = 90;
 
 /* ---- Coach reporting structure (agent -> leader) ---- */
 const COACH_ROLE = { "Natalie Melo":"Coach", "Sal Gonzalez":"Manager" };
+const normName = s => String(s==null?'':s).replace(/\s+/g,' ').trim();
 const COACH_MAP = {};
 [
   "Anthony Aguasvivas","Anthony Perez D Oleo","Anthony Perez D'Oleo","Arnold De Jesus Rodriguez",
   "Avrill Sanchez Herasme","Camila Santana Guilamo","Carlos Leonardo","Carlos Dominguez Leonardo",
   "Cristian Hiraldo Morales","Gabriela Flores Cruz","George Castro Cruz","Gianni Alcantara Zapata",
   "Julio Martinez","Marielba Nunez Garcia","Menfis Vasquez Espinal","Randy Mejia Moscoso","Reyson Mendez Cabrera"
-].forEach(a => COACH_MAP[a] = "Natalie Melo");
+].forEach(a => COACH_MAP[normName(a)] = "Natalie Melo");
 [
   "Adalu Javier De Los santos","Anthony Raccuia","Ashley Brown","Braian Vicente Santos","Cona Kight",
   "Daniel Shepard","Emil Rosario Roque","Evan Vasquez","Holly Wiscombe","Jeaina Bautista Baez",
   "Jorge Encarnacion Mercedes","Josue Rosario Sandoval","Logi Martinez Peguero","Luis Rubio","Manolo Mora",
   "Matt Gowan","Ovianny Jimenez Lorenzo","Stacie Merrill"
-].forEach(a => COACH_MAP[a] = "Sal Gonzalez");
-const coachOf = agent => COACH_MAP[agent] || "Unassigned";
+].forEach(a => COACH_MAP[normName(a)] = "Sal Gonzalez");
+const coachOf = agent => COACH_MAP[normName(agent)] || "Unassigned";
 const coachLabel = name => COACH_ROLE[name] ? (name + " (" + COACH_ROLE[name] + ")") : name;
 
 const EMBEDDED = {"meta":{"group":"Keap_Support","goal":90,"source":"8x8 Quality Management - Search Evaluations","range":"2026 year-to-date","lastUpdated":"2026-07-21T16:00:00"},"records":[
@@ -562,7 +564,8 @@ function parseCSV(text){
 }
 function findCol(H,...kw){ return H.findIndex(h=>{const l=h.toLowerCase();return kw.every(k=>l.includes(k));}); }
 function toISO(v){ if(!v) return ''; v=String(v).trim();
-  const m=v.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  let m=v.match(/^(\d{4})-(\d{2})-(\d{2})/); if(m) return m[1]+'-'+m[2]+'-'+m[3];
+  m=v.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   if(m) return m[3]+'-'+String(+m[1]).padStart(2,'0')+'-'+String(+m[2]).padStart(2,'0');
   const d=new Date(v); return isNaN(d)?v:d.toISOString().slice(0,10); }
 function toScore(v){ if(v==null) return null; const n=parseFloat(String(v).replace('%','').trim()); return isNaN(n)?null:Math.round(n); }
@@ -571,9 +574,14 @@ function channelFrom(t){ t=(t||'').toLowerCase();
   if(t.includes('chat')) return 'Chat';
   if(t.includes('email')) return 'Email';
   return t? (t.charAt(0).toUpperCase()+t.slice(1)) : 'Other'; }
-function fromCSV(text){
-  const rows=parseCSV(text); if(rows.length<2) throw 0;
-  const H=rows[0].map(h=>h.trim());
+function recordsFromRows(rows){
+  if(!rows || rows.length<2) throw 0;
+  let hi=0;
+  for(let i=0;i<Math.min(rows.length,10);i++){
+    const low=(rows[i]||[]).map(c=>String(c==null?'':c).toLowerCase());
+    if(low.some(c=>c.includes('agent name')) || (low.some(c=>c.includes('agent'))&&low.some(c=>c.includes('score')))){ hi=i; break; }
+  }
+  const H=(rows[hi]||[]).map(h=>String(h==null?'':h).trim());
   const cA=findCol(H,'agent','name')>=0?findCol(H,'agent','name'):findCol(H,'agent');
   const cS=findCol(H,'overall','score')>=0?findCol(H,'overall','score'):findCol(H,'score');
   const cE=findCol(H,'evaluator')>=0?findCol(H,'evaluator'):findCol(H,'modified','by');
@@ -582,22 +590,32 @@ function fromCSV(text){
   const cED=findCol(H,'evaluation','date')>=0?findCol(H,'evaluation','date'):findCol(H,'evaluated','date');
   const cID=findCol(H,'interaction','date');
   if(cA<0||cS<0) throw 0;
+  const get=(row,i)=>String(row[i]==null?'':row[i]).trim();
   const recs=[];
-  for(let r=1;r<rows.length;r++){ const row=rows[r];
-    if(cG>=0){ const g=(row[cG]||'').trim(); if(g && g!=='Keap_Support') continue; }
-    const score=toScore(row[cS]); const agent=(row[cA]||'').trim();
+  for(let r=hi+1;r<rows.length;r++){ const row=rows[r]; if(!row) continue;
+    if(cG>=0){ const g=get(row,cG); if(g && g!=='Keap_Support') continue; }
+    const score=toScore(row[cS]); const agent=normName(row[cA]);
     if(score==null||!agent) continue;
-    recs.push({agent,score,channel:channelFrom(cT>=0?row[cT]:''),
-      evaluator:cE>=0?(row[cE]||'').trim():'',
-      evalDate:cED>=0?toISO(row[cED]):'', interactionDate:cID>=0?toISO(row[cID]):''});
+    recs.push({agent,score,channel:channelFrom(cT>=0?get(row,cT):''),
+      evaluator:cE>=0?get(row,cE):'',
+      evalDate:cED>=0?toISO(get(row,cED)):'', interactionDate:cID>=0?toISO(get(row,cID)):''});
   }
   if(!recs.length) throw 0;
   return {meta:{group:'Keap_Support',goal:GOAL,source:'8x8 Quality Management - Search Evaluations',
-    range:'from evals.csv',lastUpdated:new Date().toISOString()},records:recs};
+    range:'from 8x8 export',lastUpdated:new Date().toISOString()},records:recs};
+}
+function xlsxToRows(buf){
+  const wb=XLSX.read(new Uint8Array(buf),{type:'array'});
+  const ws=wb.Sheets[wb.SheetNames[0]];
+  return XLSX.utils.sheet_to_json(ws,{header:1,raw:false,defval:''});
 }
 async function load(){
-  try{ const r=await fetch('evals.csv',{cache:'no-store'}); if(!r.ok) throw 0; DATA=fromCSV(await r.text()); }
-  catch(e){
+  try{
+    const r=await fetch('evals.csv',{cache:'no-store'}); if(!r.ok) throw 0;
+    const buf=await r.arrayBuffer(); const b=new Uint8Array(buf.slice(0,2));
+    const rows=(b[0]===0x50&&b[1]===0x4B) ? xlsxToRows(buf) : parseCSV(new TextDecoder('utf-8').decode(buf));
+    DATA=recordsFromRows(rows);
+  }catch(e){
     try{ const r=await fetch('data.json',{cache:'no-store'}); if(!r.ok) throw 0; DATA=await r.json(); }
     catch(e2){ DATA=EMBEDDED; }
   }
